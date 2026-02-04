@@ -167,12 +167,10 @@ const VideoSection = () => {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
         <div className="px-8">
           <h2 className="text-5xl font-bold text-white mb-8 bg-gradient-to-r from-[#ff6b35] to-[#ff8c42] bg-clip-text text-transparent">
-            Experience Innovation
+            Experience Innovation "ABot" in Motion
           </h2>
           <p className="text-xl text-gray-300 leading-8 mb-6 text-justify">
-            Discover our cutting-edge solutions through this immersive visual journey. 
-            Our team combines creativity with technology to deliver exceptional results 
-            that exceed expectations and drive success.
+            Avishkaar ABot is a popular, Made-in-India DIY robotics and coding kit for kids (8+) to build and program robots using metal parts, motors, and a, intelligent brain. It offers 5-in-1 (ABot) or 10-in-1 (ABot Advanced) models, fostering STEM skills via block-based coding, app-controlled movement, and easy-to-follow tutorials
           </p>
           <p className="text-xl text-gray-300 leading-8 mb-8 text-justify">
             Scroll to explore the 3D effect as the video transforms frame by frame, 

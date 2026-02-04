@@ -1,44 +1,60 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import slide1 from '../assets/developerphoto/slide1.png';
+import slide2 from '../assets/developerphoto/slide2.png';
+import slide3 from '../assets/developerphoto/slide3.png';
+import slide4 from '../assets/developerphoto/slide4.png';
+import slide5 from '../assets/developerphoto/slide5.png';
+import slide6 from '../assets/developerphoto/teams.png';
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isCursorIdle, setIsCursorIdle] = useState(false);
+  const idleTimeoutRef = useRef(null);
+  const throttleRef = useRef(false);
 
   const slides = [
     {
       id: 1,
       title: "Welcome to Developer Buddy",
-      description: "Empowering innovation through collaboration and cutting-edge technology solutions.",
-      image: "/images/slide1.jpeg"
+      description: "",
+      image: slide6
     },
     {
       id: 2,
-      title: "Meet Our Amazing Team",
-      description: "Passionate developers dedicated to creating exceptional digital experiences.",
-      image: "/images/slide2.svg"
+      title: "Himanshu Sonkar -- Frontend Developer",
+      description: "A Profession web developer experience in building complex application. Check my website- himanshudeveloper.vercel.app",
+      image: slide5
     },
     {
       id: 3,
-      title: "Innovation at Its Best",
-      description: "Building the future with modern frameworks and creative problem-solving.",
-      image: "/images/slide3.svg"
+      title: "Sumit Kumar -- UI/UX designer",
+      description: "A basic UI/UX designer and web developer. Learning web developemt and UI/UX design",
+      image: slide4
     },
     {
       id: 4,
-      title: "Collaborative Excellence",
-      description: "Working together to turn visionary ideas into reality through teamwork.",
-      image: "/images/slide4.svg"
+      title: "Prashant -- Abot, Makerboard coder",
+      description: "A todays Abot, Makerboard coder and helping in assembling Makerboard and Abot ",
+      image: slide3
     },
     {
       id: 5,
-      title: "Quality & Performance",
-      description: "Delivering high-performance solutions with attention to every detail.",
-      image: "/images/slide5.svg"
+      title: "Arnav -- PPT designer",
+      description: "Todays PPT designer and helper in giving attractive idea!",
+      image: slide2
     },
     {
       id: 6,
-      title: "Your Success, Our Mission",
-      description: "Committed to excellence in every project we undertake together.",
-      image: "/images/slide6.svg"
+      title: "Brajesh ",
+      description: " Makerboard and Abot assembling helper and coder of Abot and Makerboard.",
+      image: slide1
+    },
+    {
+      id: 7,
+      title: "This and this ",
+      description: "Script writer and explainer of todays project",
+      image: slide1
     }
   ];
 
@@ -50,13 +66,71 @@ const HeroSlider = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const handleMouseMove = () => {
+    if (throttleRef.current) return;
+    throttleRef.current = true;
+    
+    setIsCursorIdle(false);
+    if (idleTimeoutRef.current) {
+      clearTimeout(idleTimeoutRef.current);
+    }
+    idleTimeoutRef.current = setTimeout(() => {
+      setIsCursorIdle(true);
+    }, 10000);
+    
+    setTimeout(() => {
+      throttleRef.current = false;
+    }, 200);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    handleMouseMove();
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setIsCursorIdle(false);
+    if (idleTimeoutRef.current) {
+      clearTimeout(idleTimeoutRef.current);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (idleTimeoutRef.current) {
+        clearTimeout(idleTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isHovering) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isHovering, slides.length]);
+
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-black" id="team-intro">
-      <div className="relative w-full h-full">
+    <section
+      className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]"
+      id="team-intro"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+    >
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl"></div>
+      </div>
+      <div className="relative w-full h-full mx-auto pt-10 overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 w-full h-full transition-all duration-800 ${
+            className={`absolute inset-0 w-full h-full transition-all duration-800 ${index === 0 ? 'flex flex-col items-center justify-center' : 'flex items-center justify-center'} ${
               index === currentSlide 
                 ? 'opacity-100 transform scale-100 translate-x-0 z-10' 
                 : index < currentSlide
@@ -64,22 +138,55 @@ const HeroSlider = () => {
                 : 'opacity-0 transform scale-90 translate-x-full'
             }`}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35] via-transparent to-[#1a1a1a] opacity-80"></div>
-            <img 
-              src={slide.image} 
-              alt={slide.title} 
-              className="w-full h-full object-cover opacity-30 blur-sm"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgba(255,107,53,0.4)] via-transparent to-[rgba(255,140,66,0.3)]"></div>
-            
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-20 max-w-5xl px-8">
-              <h1 className="text-6xl font-bold text-white mb-6 drop-shadow-xl">
-                {slide.title}
-              </h1>
-              <p className="text-2xl text-gray-100 leading-relaxed drop-shadow-lg">
-                {slide.description}
-              </p>
-            </div>
+            {index === 0 ? (
+              <>
+                {/* First slide - Text on top */}
+                <div className="px-12 max-w-2xl relative z-20">
+                  <div className="relative z-20 max-w-2xl text-center">
+                    <h1 className="text-5xl font-bold text-white mb-3 drop-shadow-xl">
+                      {slide.title}
+                    </h1>
+                    <p className="text-lg text-gray-200 leading-relaxed drop-shadow-lg">
+                      {slide.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* First slide - Image below */}
+                <div className={`relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 w-[700px] mt-4`}>
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title} 
+                    className="w-full h-full object-contain rounded-lg float-slow"
+                  />
+                
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Other slides - Image on left */}
+                <div className={`relative overflow-hidden rounded-lg shadow-lg flex-shrink-0 ${slide.image === slide6 ? 'w-[350px]' : 'w-[200px]'}`}>
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title} 
+                    className="w-full h-full object-contain rounded-lg float-slower"
+                  />
+              
+                </div>
+
+                {/* Other slides - Text on right */}
+                <div className="flex-1 flex items-start justify-center px-12 max-w-2xl relative z-20">
+                  <div className="relative z-20 max-w-2xl">
+                    <h1 className="text-5xl font-bold text-white mb-3 drop-shadow-xl">
+                      {slide.title}
+                    </h1>
+                    <p className="text-lg text-gray-200 leading-relaxed drop-shadow-lg">
+                      {slide.description}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         ))}
         

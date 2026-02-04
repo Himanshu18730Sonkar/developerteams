@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const ImageSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [currentPattern, setCurrentPattern] = useState(1);
   const [matrixText, setMatrixText] = useState('MAKER');
@@ -10,27 +9,6 @@ const ImageSection = () => {
   const [customPattern, setCustomPattern] = useState(new Map()); // Store custom pattern LEDs with their colors
   const [isCustomPattern, setIsCustomPattern] = useState(false); // Track if custom pattern is selected
   const [selectedLedColor, setSelectedLedColor] = useState('#ff6b35'); // Color for new LEDs
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
 	useEffect(() => {
 		if (showNameModal) {
@@ -97,21 +75,16 @@ const ImageSection = () => {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      id="makerboard"
-      className={`relative min-h-screen px-6 md:px-12 py-24 bg-gradient-to-b from-[#1a1a1a] via-[#0a0a0a] to-[#1a1a1a] overflow-hidden transition-all duration-1000 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-      }`}
-    >
+		<section
+			id="makerboard"
+			className="relative min-h-screen px-6 md:px-12 py-24 bg-gradient-to-b from-[#1a1a1a] via-[#0a0a0a] to-[#1a1a1a] overflow-hidden"
+		>
       <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-orange-600/5 pointer-events-none" />
       
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Image */}
-          <div className={`transition-all duration-700 delay-200 flex items-center justify-center ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
-          }`}>
+					<div className="flex items-center justify-center">
             <div className="relative group w-full">
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl blur-xl opacity-25 group-hover:opacity-40 transition duration-500"></div>
               <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-10 border border-orange-500/20 flex items-center justify-center">
@@ -899,9 +872,7 @@ const ImageSection = () => {
           </div>
 
           {/* Right: Heading and Description */}
-          <div className={`space-y-6 transition-all duration-700 delay-400 ${
-            isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
-          }`}>
+					<div className="space-y-6">
             <div className="inline-block">
               <span className="px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-500 text-sm font-semibold tracking-wide">
                 INNOVATION PLATFORM
@@ -918,11 +889,7 @@ const ImageSection = () => {
               Avishkaar Maker Board 3.0 is an advanced, all-in-one, open-source single-board computer designed for kids (10+) and beginners to learn coding, robotics, IoT, and AI. It features built-in components like an LED matrix, buzzer, and sensors, eliminating messy wiring. It supports block-based coding, Python, and Bluetooth connectivity
             </p>
 
-            <p className="text-base md:text-lg text-gray-400 leading-relaxed">
-              Featuring advanced microcontroller technology, seamless connectivity options, and 
-              a robust ecosystem of tools and libraries, Makerboard empowers you to prototype 
-              faster, iterate smarter, and build projects that push the boundaries of what's possible.
-            </p>
+            
 
             {/* Feature List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
@@ -933,8 +900,8 @@ const ImageSection = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">High Performance</h3>
-                  <p className="text-gray-400 text-sm">Powerful processing capabilities</p>
+                  <h3 className="text-white font-semibold">Powerful Performance</h3>
+                  <p className="text-gray-400 text-sm">uitable for building, testing, and creating complex, interactive, or multi-robotic projects.</p>
                 </div>
               </div>
 
@@ -957,8 +924,8 @@ const ImageSection = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">Open Source</h3>
-                  <p className="text-gray-400 text-sm">Community-driven development</p>
+                  <h3 className="text-white font-semibold">Comprehensive Learning</h3>
+                  <p className="text-gray-400 text-sm"> Enables, , sensor interfacing, app development, game design, and Internet of Things (IoT)</p>
                 </div>
               </div>
 
