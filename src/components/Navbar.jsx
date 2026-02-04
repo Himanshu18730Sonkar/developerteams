@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -27,7 +27,7 @@ const Navbar = () => {
         }`}
       >
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-8">
-        <div className="flex items-center gap-4">
+        <Link to="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
           <img 
             src="/images/logo.png" 
             alt="Logo" 
@@ -36,7 +36,7 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-[#ff6b35] tracking-wider drop-shadow-lg">
             <span className="text-white">Developer</span> Buddy
           </span>
-        </div>
+        </Link>
         <div className="flex gap-8 items-center">
           <a 
             href="#team-intro" 
@@ -59,13 +59,7 @@ const Navbar = () => {
             Makerboard
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-[#ff6b35] transition-all duration-300 group-hover:w-4/5 -translate-x-1/2"></span>
           </a>
-          <Link
-            to="/components"
-            className="text-white font-medium text-lg py-2 px-4 rounded-lg transition-all duration-300 hover:text-[#ff6b35] hover:-translate-y-0.5 relative group"
-          >
-            Components
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-[#ff6b35] transition-all duration-300 group-hover:w-4/5 -translate-x-1/2"></span>
-          </Link>
+          
           <button
             onClick={() => setIsVisible(false)}
             className="w-8 h-8 flex items-center justify-center rounded-full bg-[#ff6b35] hover:bg-[#ff8c42] transition-all duration-300 text-white font-bold text-sm hover:scale-110"
