@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --primary-orange: #ff6b35;
+  --secondary-orange: #ff8c42;
+  --dark-bg: #0a0a0a;
+  --light-bg: #1a1a1a;
+}
+
+@layer utilities {
+  .gradient-radial {
+    background-image: radial-gradient(var(--tw-gradient-stops));
+  }
+}
